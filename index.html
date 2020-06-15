@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Four Down</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <link href="./style.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+    integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <style>
+    .bigger {
+      font-size: 2rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id='app' v-cloak>
+    <v-app>
+      <v-main>
+        <div class="display-1 text-center ma-5">
+          Four Down
+        </div>
+
+        <v-container v-if="game.isGameStarting()">
+
+          <div class="text-center">
+            <div>
+              <v-btn class="ma-5 pa-10 display-1" @click="game.startGame()"><i
+                  class="fas fa-user secondary--text text--darken-1"></i>&nbsp;-&nbsp;<i
+                  class="fas fa-user secondary--text text--darken-1"></i></v-btn>
+            </div>
+          </div>
+        </v-container>
+
+        <v-container fluid v-if="game.isGamePlayable() || game.isGameOver()">
+          <v-row>
+            <v-col xs=6 v-for="player in game.players" :key="player">
+              <div :class="scoreDiv(player)">
+                <div>
+                  <div class="py-3">
+                    <span class="white--text display-1">Player {{player}}:&nbsp;</span>
+                  </div>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+          <v-row v-if="game.isGameOver()">
+            <v-col cols=12 class="text-center">
+              The game is over.
+            </v-col>
+            <v-col cols=12 class="text-center">
+              {{game.getWinnerText()}}
+            </v-col>
+            <v-col cols=12 class="text-center">
+              <v-btn @click="game.restartGame()">Restart Game</v-btn>
+            </v-col>
+          </v-row>
+          <div v-if="game.isGamePlayable()" class="text-center">
+
+            <v-row>
+              <v-col v-for="column in game.maxCols" :key="column">
+                <v-btn :disabled="!game.canPlayCol(column-1)" icon @click="playCol(column-1)" :class="getPlayClass()">
+                  <v-icon >fas fa-arrow-down</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+            <v-row v-for="row in game.maxRows" :key="row">
+              <v-col v-for="column in game.maxCols" :key="column">
+                <v-card>
+                  <v-card-text v-html="getColRow(column-1, 7-row-1)">
+                    <!-- {{getColRow(column-1, 7-row-1)}} -->
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
+        </v-container>
+      </v-main>
+    </v-app>
+  </div>
+
+  <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+
+  <script type="module">
+    import Game from "./four.js"
+
+    // window.addEventListener("beforeunload", (e) => {
+    //   e.preventDefault();
+    //   e.returnValue = '';
+    // })
+
+    const app = new Vue({
+      el: '#app',
+      vuetify: new Vuetify({
+        theme: {
+          themes: {
+            light: {
+              primary: '#4EBABA',
+              secondary: '#C4F466',
+              accent: '#8c9eff',
+              error: '#b71c1c',
+            },
+          },
+        },
+      }
+      ),
+      data: {
+        game: new Game(),
+        // SUB_STATE_ROLLING: 4,
+        // SUB_STATE_NOT_ROLLING: 5,
+        // subState: 5,
+        // lightning: []
+      },
+      created() {
+        this.game.resetGame();
+
+
+      },
+      methods: {
+        scoreDiv(player) {
+          return {
+            'grey': !this.game.isCurrentPlayer(player),
+            'primary': player == 2 && this.game.isCurrentPlayer(2),
+            'secondary': player == 1 && this.game.isCurrentPlayer(1),
+            "white--text": true,
+            "text-center": true,
+            "title darken-1": true
+          };
+        },
+        endRollTurn() {
+          this.game.rollTurn();
+
+        },
+        playCol(col) {
+          this.game.playCol(col);
+        },
+        getColRow(col, row) {
+          let toReturn = this.game.getColRow(col, row);
+          if (toReturn == 'Empty') return '<i class="far fa-circle bigger"></i>';
+          if (toReturn == '0') return '<i class="fas fa-star secondary--text bigger"></i>';
+          if (toReturn == '1') return '<i class="fas fa-heart primary--text bigger"></i>';
+        },
+        getPlayClass(){
+          return {
+            'primary--text':this.game.currentPlayer == 1,
+            'secondary--text':this.game.currentPlayer == 0,
+          }
+        }
+      },
+    });
+
+  </script>
+</body>
+
+</html>
