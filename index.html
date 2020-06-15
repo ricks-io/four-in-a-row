@@ -67,11 +67,10 @@
                 </v-btn>
               </v-col>
             </v-row>
-            <v-row v-for="row in game.maxRows" :key="row">
+            <v-row no-gutters v-for="row in game.maxRows" :key="row">
               <v-col v-for="column in game.maxCols" :key="column">
                 <v-card>
                   <v-card-text v-html="getColRow(column-1, 7-row-1)">
-                    <!-- {{getColRow(column-1, 7-row-1)}} -->
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -142,7 +141,8 @@
         },
         getColRow(col, row) {
           let toReturn = this.game.getColRow(col, row);
-          if (toReturn == 'Empty') return '<i class="far fa-circle bigger"></i>';
+          // if (toReturn == 'Empty') return '<i class="far fa-circle bigger blue-grey--text text--lighten-3"></i>';
+          if (toReturn == 'Empty') return '<i class="fas fa-star transparent--text bigger"></i>';
           if (toReturn == '0') return '<i class="fas fa-star secondary--text bigger"></i>';
           if (toReturn == '1') return '<i class="fas fa-heart primary--text bigger"></i>';
         },
