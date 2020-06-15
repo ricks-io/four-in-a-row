@@ -69,7 +69,7 @@
             </v-row>
             <v-row no-gutters v-for="row in game.maxRows" :key="row">
               <v-col v-for="column in game.maxCols" :key="column">
-                <v-card>
+                <v-card :class="cardClass(column-1, 7-row-1)">
                   <v-card-text v-html="getColRow(column-1, 7-row-1)">
                   </v-card-text>
                 </v-card>
@@ -132,6 +132,12 @@
             "title darken-1": true
           };
         },
+        cardClass(col, row){
+          return{
+            'primary' : this.game.getColRow(col, row) == 1,
+            'secondary' : this.game.getColRow(col, row) == 0,
+          }
+        },
         endRollTurn() {
           this.game.rollTurn();
 
@@ -144,8 +150,8 @@
           // if (toReturn == 'Empty') return '<i class="far fa-circle bigger blue-grey--text text--lighten-3"></i>';
           let sizing ="text-caption text-sm-body-2 text-md-h6 text-lg-h4 text-xl-h2";
           if (toReturn == 'Empty') return `<i class="fas fa-star transparent--text ${sizing}"></i>`;
-          if (toReturn == '0') return `<i class="fas fa-star secondary--text ${sizing}"></i>`;
-          if (toReturn == '1') return `<i class="fas fa-heart primary--text  ${sizing}"></i>`;
+          if (toReturn == '0') return `<i class="fas fa-star white--text ${sizing}"></i>`;
+          if (toReturn == '1') return `<i class="fas fa-heart white--text  ${sizing}"></i>`;
         },
         getPlayClass(){
           return {
