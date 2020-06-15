@@ -60,7 +60,7 @@
           </v-row>
           <div v-if="game.isGamePlayable()" class="text-center">
 
-            <v-row>
+            <v-row class="d-flex flex-nowrap">
               <v-col v-for="column in game.maxCols" :key="column">
                 <v-btn :disabled="!game.canPlayCol(column-1)" icon @click="playCol(column-1)" :class="getPlayClass()">
                   <v-icon >fas fa-arrow-down</v-icon>
@@ -142,16 +142,23 @@
         getColRow(col, row) {
           let toReturn = this.game.getColRow(col, row);
           // if (toReturn == 'Empty') return '<i class="far fa-circle bigger blue-grey--text text--lighten-3"></i>';
-          if (toReturn == 'Empty') return '<i class="fas fa-star transparent--text bigger"></i>';
-          if (toReturn == '0') return '<i class="fas fa-star secondary--text bigger"></i>';
-          if (toReturn == '1') return '<i class="fas fa-heart primary--text bigger"></i>';
+          let sizing ="text-caption text-sm-body-2 text-md-h6 text-lg-h4 text-xl-h2";
+          if (toReturn == 'Empty') return `<i class="fas fa-star transparent--text ${sizing}"></i>`;
+          if (toReturn == '0') return `<i class="fas fa-star secondary--text ${sizing}"></i>`;
+          if (toReturn == '1') return `<i class="fas fa-heart primary--text  ${sizing}"></i>`;
         },
         getPlayClass(){
           return {
             'primary--text':this.game.currentPlayer == 1,
             'secondary--text':this.game.currentPlayer == 0,
           }
+        },
+        getTextSize(){
+          return{
+            'bigger':$vuetify.breakpoint.mdAndUp
+          }
         }
+
       },
     });
 
