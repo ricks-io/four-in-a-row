@@ -35,7 +35,7 @@
           </div>
         </v-container>
 
-        <v-container fluid v-if="game.isGamePlayable() || game.isGameOver()">
+        <v-container v-if="game.isGamePlayable() || game.isGameOver()">
           <v-row>
             <v-col xs=6 v-for="player in game.players" :key="player">
               <div :class="scoreDiv(player)">
@@ -55,7 +55,7 @@
               {{game.getWinnerText()}}
             </v-col>
             <v-col cols=12 class="text-center">
-              <v-btn @click="game.restartGame()">Restart Game</v-btn>
+              <v-btn @click="game.resetGame()">Restart Game</v-btn>
             </v-col>
           </v-row>
           <div v-if="game.isGamePlayable()" class="text-center">
@@ -111,10 +111,7 @@
       ),
       data: {
         game: new Game(),
-        // SUB_STATE_ROLLING: 4,
-        // SUB_STATE_NOT_ROLLING: 5,
-        // subState: 5,
-        // lightning: []
+        
       },
       created() {
         this.game.resetGame();
