@@ -19,6 +19,7 @@ export default class Seven extends TurneBasedGame{
       this.columns.push([]);
     }
     this.currentPlayer = 0;
+    this.result = this.NO_WINNER_YET
   }
   canPlayCol(col){
     if(arguments.length != 1) throw new Error("canPlayCol expects exactly one argument");

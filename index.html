@@ -21,7 +21,7 @@
     <v-app>
       <v-main>
         <div class="display-1 text-center ma-5">
-          Four Down
+          Four in a Row
         </div>
 
         <v-container v-if="game.isGameStarting()">
@@ -55,7 +55,7 @@
               {{game.getWinnerText()}}
             </v-col>
             <v-col cols=12 class="text-center">
-              <v-btn @click="game.resetGame()">Restart Game</v-btn>
+              <v-btn @click="game.resetGame();$forceUpdate()">Restart Game</v-btn>
             </v-col>
           </v-row>
           <div v-if="game.isGamePlayable()" class="text-center">
@@ -115,8 +115,6 @@
       },
       created() {
         this.game.resetGame();
-
-
       },
       methods: {
         scoreDiv(player) {
@@ -135,10 +133,10 @@
             'secondary' : this.game.getColRow(col, row) == 0,
           }
         },
-        endRollTurn() {
-          this.game.rollTurn();
+        // endRollTurn() {
+        //   this.game.rollTurn();
 
-        },
+        // },
         playCol(col) {
           this.game.playCol(col);
         },
