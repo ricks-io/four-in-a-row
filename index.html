@@ -24,6 +24,9 @@
         <div class="display-1 text-center ma-5">
           Four in a Row
         </div>
+        <div class=" text-center ma-5">
+          Compare to the "Active Ingredients" of <a href="https://en.wikipedia.org/wiki/Connect_Four">Connect Four</a>*
+        </div>
 
         <v-container v-if="game.isGameStarting()">
 
@@ -79,6 +82,23 @@
           </div>
         </v-container>
       </v-main>
+      <v-footer>
+        <v-col
+      class="text-center"
+      cols="12"
+    >
+      (c) {{ new Date().getFullYear() }} — <a href="https://github.com/bricksphd">B. Ricks, PhD</a>
+      The code can be found on <a href="https://github.com/ricks-io/four-in-a-row"><i class="fab fa-github"></i></a>.
+      Made using 
+      <i class="fab fa-html5"></i>
+      <i class="fab fa-css3"></i>
+      <i class="fab fa-js-square"></i>
+      <i class="fab fa-vuejs"></i>
+      <i class="fab fa-windows"></i>
+      <i class="fab fa-apple"></i>
+   <div>*This website is not associate with Milton Bradley, the trademark holder of Connect Four.</div>
+    </v-col>
+      </v-footer>
     </v-app>
   </div>
 
